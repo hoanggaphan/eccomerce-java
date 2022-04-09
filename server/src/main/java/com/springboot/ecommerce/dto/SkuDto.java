@@ -3,7 +3,6 @@ package com.springboot.ecommerce.dto;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.springboot.ecommerce.model.SkuAttribute;
 
 import lombok.Data;
 
@@ -16,5 +15,5 @@ public class SkuDto {
   @JsonIgnoreProperties("skus")
   private ProductDto product;
 
-  private Collection<SkuAttribute> variants;
+  private Collection<SkuAttributeDto> variants;
 }

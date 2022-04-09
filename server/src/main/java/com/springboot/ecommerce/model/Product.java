@@ -55,13 +55,13 @@ public class Product {
   private Category category;
 
   // 1 product có nhiều dạng loại khác nhau (sku)
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<Sku> skus;
 
   // 1 product có nhiều image
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<Image> images;

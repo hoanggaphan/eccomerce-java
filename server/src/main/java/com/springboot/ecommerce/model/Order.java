@@ -56,7 +56,7 @@ public class Order {
   @ToString.Exclude
   private User user;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<OrderSku> orderItems;

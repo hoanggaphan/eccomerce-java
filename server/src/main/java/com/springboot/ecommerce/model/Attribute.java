@@ -2,9 +2,9 @@ package com.springboot.ecommerce.model;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +33,7 @@ public class Attribute {
   @Column(length = 50, nullable = false, unique = true)
   private String name;
 
-  @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<SkuAttribute> variants;
