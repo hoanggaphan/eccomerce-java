@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class Product {
   @Column(length = 1000)
   private String description;
 
+  @NotNull(message = "{field.notBlank}")
   @Column(columnDefinition = "boolean default false", nullable = false)
   private Boolean active = false;
 

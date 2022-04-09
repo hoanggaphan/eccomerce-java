@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,13 +29,16 @@ public class Sku {
   @Column(name = "sku_id")
   private Long id;
 
+  @NotNull(message = "{field.notBlank}")
   @Column(columnDefinition = "integer default 0", nullable = false)
   private int qty = 0;
 
+  @NotNull(message = "{field.notBlank}")
   @Column(name = "base_price", columnDefinition = "double default 0", nullable = false)
   private double basePrice = 0;
 
   // Nhiều dạng sku thuộc 1 product.
+  @NotNull(message = "{field.notBlank}")
   @ManyToOne
   @JoinColumn(name = "product_id", nullable = false) // thông qua khóa ngoại product_id
   @EqualsAndHashCode.Exclude

@@ -3,6 +3,7 @@ package com.springboot.ecommerce.dto;
 import java.util.Collection;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,7 +23,10 @@ public class ProductDto {
   private String slug;
 
   private String description;
+
+  @NotNull(message = "{field.notBlank}")
   private Boolean active;
+  
   private CategoryDto category;
 
   @JsonIgnoreProperties("product")
