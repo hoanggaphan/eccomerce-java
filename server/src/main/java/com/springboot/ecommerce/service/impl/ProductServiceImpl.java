@@ -33,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
     productRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
     product.setId(id);
+
     return productRepository.save(product);
   }
 
