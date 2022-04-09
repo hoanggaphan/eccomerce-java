@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.springboot.ecommerce.domain.Status;
@@ -38,18 +38,21 @@ public class Order {
   @Column(name = "order_id")
   private Long id;
 
-  @NotBlank(message = "{field.notBlank}")
+  @NotNull(message = "{field.notBlank}")
   @Column(name = "ship_cost", nullable = false)
   private double shipCost;
 
+  @NotNull(message = "{field.notBlank}")
   @Column(name = "order_date", nullable = false)
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime orderDateTime;
 
+  @NotNull(message = "{field.notBlank}")
   @Column(columnDefinition = "varchar(20) default 'pending'", nullable = false)
   private Status status = Status.pending;
 
   // Nhiều Order thuộc 1 user.
+  @NotNull(message = "{field.notBlank}")
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   @EqualsAndHashCode.Exclude

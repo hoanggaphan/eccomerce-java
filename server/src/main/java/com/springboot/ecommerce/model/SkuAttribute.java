@@ -18,10 +18,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sku_attribute")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "sku_attribute")
 public class SkuAttribute {
   @EmbeddedId
   private SkuAttributeKey skuAttributeKeyId;

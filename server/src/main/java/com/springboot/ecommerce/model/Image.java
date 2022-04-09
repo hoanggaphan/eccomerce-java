@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class Image {
   private String src;
 
   // Nhiều Image thuộc 1 product.
+  @NotNull(message = "{field.notBlank}")
   @ManyToOne
   @JoinColumn(name = "product_id", nullable = false)
   @EqualsAndHashCode.Exclude
