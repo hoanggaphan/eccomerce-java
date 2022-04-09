@@ -25,7 +25,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     // Not show for client
     details.add(e.getLocalizedMessage());
 
-    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, "Server Error",
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, "Server Error",
         HttpStatus.INTERNAL_SERVER_ERROR.value(), details,
         ZonedDateTime.now(ZoneId.of("Z")));
     return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.springboot.ecommerce.model.Category;
 
 import lombok.Data;
 
@@ -24,7 +23,7 @@ public class ProductDto {
 
   private String description;
   private Boolean active;
-  private Category category;
+  private CategoryDto category;
 
   @JsonIgnoreProperties("product")
   private Collection<SkuDto> skus;

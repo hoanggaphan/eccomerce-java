@@ -41,12 +41,12 @@ public class Sku {
   @ToString.Exclude
   private Product product;
 
-  @OneToMany(mappedBy = "sku", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "sku", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<SkuAttribute> variants;
 
-  @OneToMany(mappedBy = "sku", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "sku", cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<OrderSku> orderItems;

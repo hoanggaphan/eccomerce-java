@@ -85,7 +85,7 @@ public class User {
   private Role role = Role.user;
 
   // 1 user có nhiều đơn đặt hàng
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   private Collection<Order> orders;

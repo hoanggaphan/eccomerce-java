@@ -5,7 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import lombok.Data;
+
 @Embeddable
+@Data
 public class SkuAttributeKey implements Serializable {
   @Column(name = "sku_id")
   private Long skuId;

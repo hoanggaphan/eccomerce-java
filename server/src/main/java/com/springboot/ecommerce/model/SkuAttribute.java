@@ -1,5 +1,6 @@
 package com.springboot.ecommerce.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -12,18 +13,25 @@ import javax.validation.constraints.Size;
 
 import com.springboot.ecommerce.key.SkuAttributeKey;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "sku_attribute")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SkuAttribute {
   @EmbeddedId
-  private SkuAttributeKey id;
+  private SkuAttributeKey skuAttributeKeyId;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @MapsId("skuId")
   @JoinColumn(name = "sku_id")
   private Sku sku;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @MapsId("attributeId")
   @JoinColumn(name = "attribute_id")
   private Attribute attribute;
