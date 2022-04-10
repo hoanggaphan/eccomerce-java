@@ -27,8 +27,11 @@ public class ProductServiceImpl implements ProductService {
   private final ModelMapper modelMapper;
 
   public Map<String, Object> getAllProducts(int page, int length, String color, String size) {
+    if (page == 0) {
+      throw new ResourceNotFoundException("Product", "page", page);
+    }
 
-    Pageable paging = PageRequest.of(page, length);
+    Pageable paging = PageRequest.of(--page, length);
 
     Page<Product> pageProduct = productRepository.findAll(paging);
 
@@ -40,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
     Map<String, Object> response = new HashMap<>();
 
     response.put("products", products);
-    response.put("currentPage", pageProduct.getNumber());
+    response.put("currentPage", pageProduct.getNumber() + 1);
     response.put("totalItems", pageProduct.getTotalElements());
     response.put("totalPages", pageProduct.getTotalPages());
 

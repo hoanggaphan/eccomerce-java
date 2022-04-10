@@ -36,8 +36,8 @@ public class ProductController {
 
   @GetMapping()
   public ResponseEntity<Map<String, Object>> getAllProducts(
-      @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "5") int length,
+      @RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "15") int length,
       @RequestParam(required = false) String color,
       @RequestParam(required = false) String size) {
 

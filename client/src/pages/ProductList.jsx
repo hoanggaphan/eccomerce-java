@@ -1,4 +1,5 @@
 import Pagination from '@material-ui/lab/Pagination';
+import React from 'react';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import Announcement from '../components/Announcement';
@@ -46,23 +47,29 @@ const Center = styled.div`
 const fetchPopularList = (url) => fetch(url).then((r) => r.json());
 
 const ProductList = () => {
+  const [page, setPage] = React.useState(1);
+
   const { data } = useSWR(
-    'http://localhost:8080/api/v1/products',
+    `http://localhost:8080/api/v1/products?page=${page}`,
     fetchPopularList
   );
 
-  const products = data?.products.map((i) => ({
-    slug: i.slug,
-    name: i.name,
-    img: i.images[0].src,
-  }));
+  const products =
+    data &&
+    data?.products?.map((i) => ({
+      slug: i.slug,
+      name: i.name,
+      img: i.images[0].src,
+    }));
+
+  const handlePagination = (e, value) => setPage(value);
 
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Title>Có tất cả {data && data?.totalItems} sản phẩm</Title>
-      <FilterContainer>
+      {/* <FilterContainer>
         <Filter>
           <FilterText>Lọc sản phẩm:</FilterText>
           <Select defaultValue='title'>
@@ -87,20 +94,27 @@ const ProductList = () => {
             <Option>XL</Option>
           </Select>
         </Filter>
-        {/* <Filter>
+        <Filter>
           <FilterText>Sort Products:</FilterText>
           <Select>
             <Option>Newest</Option>
             <Option>Price (asc)</Option>
             <Option>Price (desc)</Option>
           </Select>
-        </Filter> */}
-      </FilterContainer>
+        </Filter>
+      </FilterContainer> */}
       <Products products={products} />
 
       <Center>
         {data && data?.totalPages > 1 && (
-          <Pagination count={data?.totalPages} shape='rounded' />
+          <Pagination
+          size='large'
+            defaultPage={1}
+            page={page}
+            onChange={handlePagination}
+            count={data?.totalPages}
+            shape='rounded'
+          />
         )}
       </Center>
 
