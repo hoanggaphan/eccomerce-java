@@ -1,8 +1,11 @@
+import { Box } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import { Add, Close, Remove } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
@@ -11,8 +14,6 @@ import {
   removeItemFromCart,
 } from '../features/cart/cartSlice';
 import { mobile } from '../responsive';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
@@ -159,11 +160,15 @@ const CloseButton = styled.div`
 `;
 
 const Button = styled.button`
+  cursor: pointer;
   width: 100%;
   padding: 10px;
-  background-color: black;
-  color: white;
   font-weight: 600;
+
+  border: ${(props) => props.type === 'filled' && 'none'};
+  background-color: ${(props) =>
+    props.type === 'filled' ? 'black' : 'transparent'};
+  color: ${(props) => props.type === 'filled' && 'white'};
 `;
 
 const Cart = () => {
@@ -189,7 +194,7 @@ const Cart = () => {
       showCancelButton: true,
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
-      confirmButtonColor: "teal"
+      confirmButtonColor: 'teal',
     }).then((res) => {
       if (res.isConfirmed) {
         dispatch(removeItemFromCart({ skuId }));
@@ -204,11 +209,11 @@ const Cart = () => {
       <Wrapper>
         <Title>GIỎ HÀNG</Title>
         <Top>
-          <TopButton onClick={() => navigate('/')}>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => navigate('/')}>TRANG CHỦ</TopButton>
           <TopTexts>
             <TopText>TỔNG ĐƠN HÀNG | {cartLength} SẢN PHẨM</TopText>
           </TopTexts>
-          <TopButton type='filled'>CHECKOUT NOW</TopButton>
+          <TopButton type='filled'>THANH TOÁN NGAY</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -287,7 +292,10 @@ const Cart = () => {
                 {(total + shipCost).toLocaleString()}đ
               </SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button type='filled'>THANH TOÁN NGAY</Button>
+            <Box mt={2}>
+              <Button>TIẾP TỤC MUA SẮM</Button>
+            </Box>
           </Summary>
         </Bottom>
       </Wrapper>

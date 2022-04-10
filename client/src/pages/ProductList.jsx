@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import Products from '../components/Products';
-import { mobile } from '../responsive';
+// import { mobile } from '../responsive';
 
 const Container = styled.div``;
 
@@ -15,29 +15,30 @@ const Title = styled.h1`
   margin: 20px;
 `;
 
-const FilterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+// const FilterContainer = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+// `;
 
-const Filter = styled.div`
-  margin: 20px;
-  ${mobile({ width: '0px 20px', display: 'flex', flexDirection: 'column' })}
-`;
+// const Filter = styled.div`
+//   margin: 20px;
+//   ${mobile({ width: '0px 20px', display: 'flex', flexDirection: 'column' })}
+// `;
 
-const FilterText = styled.span`
-  font-size: 20px;
-  font-weight: 600;
-  margin-right: 20px;
-  ${mobile({ marginRight: '0px' })}
-`;
+// const FilterText = styled.span`
+//   font-size: 20px;
+//   font-weight: 600;
+//   margin-right: 20px;
+//   ${mobile({ marginRight: '0px' })}
+// `;
 
-const Select = styled.select`
-  padding: 10px;
-  margin-right: 20px;
-  ${mobile({ margin: '10px 0px' })}
-`;
-const Option = styled.option``;
+// const Select = styled.select`
+//   padding: 10px;
+//   margin-right: 20px;
+//   ${mobile({ margin: '10px 0px' })}
+// `;
+// const Option = styled.option``;
+
 const Center = styled.div`
   margin-top: 15px;
   display: flex;
@@ -54,13 +55,11 @@ const ProductList = () => {
     fetchPopularList
   );
 
-  const products =
-    data &&
-    data?.products?.map((i) => ({
-      slug: i.slug,
-      name: i.name,
-      img: i.images[0].src,
-    }));
+  const products = data?.products?.map((i) => ({
+    slug: i.slug,
+    name: i.name,
+    img: i.images[0].src,
+  }));
 
   const handlePagination = (e, value) => setPage(value);
 
@@ -108,7 +107,7 @@ const ProductList = () => {
       <Center>
         {data && data?.totalPages > 1 && (
           <Pagination
-          size='large'
+            size='large'
             defaultPage={1}
             page={page}
             onChange={handlePagination}

@@ -3,8 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Category from './pages/Category';
-
-const queryClient = new QueryClient();
+import TopBarProgress from 'react-topbar-progress-indicator';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Cart = React.lazy(() => import('./pages/Cart'));
@@ -13,25 +12,22 @@ const ProductList = React.lazy(() => import('./pages/ProductList'));
 const Register = React.lazy(() => import('./pages/Register'));
 const Login = React.lazy(() => import('./pages/Login'));
 
+const queryClient = new QueryClient();
+
+TopBarProgress.config({
+  barColors: {
+    0: 'teal',
+    '1.0': 'teal',
+  },
+  shadowBlur: 5,
+});
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
-        <React.Suspense
-          fallback={
-            <div
-              style={{
-                height: '100vh',
-                width: '100vw',
-                display: 'grid',
-                placeContent: 'center',
-              }}
-            >
-              <h1>Loading...</h1>
-            </div>
-          }
-        >
+        <React.Suspense fallback={<TopBarProgress />}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='product/:slug' element={<Product />} />

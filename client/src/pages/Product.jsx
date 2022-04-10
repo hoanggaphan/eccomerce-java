@@ -2,6 +2,7 @@ import { Add, Remove } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import TopBarProgress from 'react-topbar-progress-indicator';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import Announcement from '../components/Announcement';
@@ -198,7 +199,7 @@ const Product = () => {
     }
   }, [data]);
 
-  if (!data) return <h1>Loading...</h1>;
+  if (!data) return <TopBarProgress />;
 
   const handleSelectSize = (e) => {
     const size = e.target.value;

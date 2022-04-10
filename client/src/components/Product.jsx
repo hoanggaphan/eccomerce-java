@@ -54,7 +54,7 @@ const Icon = styled.div`
 `;
 
 const ContainerImg = styled.div`
-  height: 350px;
+  height: 361px;
   max-width: 100%;
   background-color: #f5fbfd;
 `;
@@ -72,7 +72,7 @@ const Product = ({ item }) => {
     <div>
       <Container>
         <ContainerImg>
-          <Image src={item.img} />
+          <Image src={item.img} height={361} />
         </ContainerImg>
         <Info>
           <Icon>
@@ -85,8 +85,8 @@ const Product = ({ item }) => {
             <FavoriteBorderOutlined />
           </Icon>
         </Info>
+        <Name>{item.name}</Name>
       </Container>
-      {item.name && <Name>{item.name}</Name>}
     </div>
   );
 };
