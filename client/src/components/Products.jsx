@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   column-gap: 15px;
   row-gap: 25px;
-  // justify-content: space-between;
+  justify-content: space-around;
 `;
 
 const Products = ({ products }) => {

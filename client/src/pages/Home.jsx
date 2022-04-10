@@ -17,7 +17,6 @@ const Home = () => {
   );
   
   const products = data?.map((i) => ({ slug: i.slug, img: i.images[0].src }));
-  console.log(data);
 
   return (
     <div>

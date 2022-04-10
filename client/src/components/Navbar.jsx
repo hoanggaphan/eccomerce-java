@@ -1,6 +1,7 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
@@ -43,10 +44,10 @@ const Input = styled.input`
   ${mobile({ width: '50px' })}
 `;
 
-const Center = styled.div`
-  flex: 1;
-  text-align: center;
-`;
+// const Center = styled.div`
+//   flex: 1;
+//   text-align: center;
+// `;
 
 const Logo = styled.h1`
   font-weight: bold;
@@ -71,6 +72,7 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const cartLength = useSelector((state) => state.cart.length);
 
   return (
     <Container>
@@ -82,14 +84,14 @@ const Navbar = () => {
             <Search style={{ color: 'gray', fontSize: 16 }} />
           </SearchContainer>
         </Left>
-        <Center>
-          <Logo onClick={() => navigate('/')}>LAMA.</Logo>
-        </Center>
+        {/* <Center> */}
+          <Logo onClick={() => navigate('/')}>ÉTOÉT.</Logo>
+        {/* </Center> */}
         <Right>
           <MenuItem onClick={() => navigate('/register')}>REGISTER</MenuItem>
           <MenuItem onClick={() => navigate('/login')}>SIGN IN</MenuItem>
           <MenuItem onClick={() => navigate('/cart')}>
-            <Badge badgeContent={4} color='primary'>
+            <Badge badgeContent={cartLength} color='primary'>
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>

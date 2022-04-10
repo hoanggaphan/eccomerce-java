@@ -3,6 +3,7 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from '@material-ui/icons';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const Info = styled.div`
@@ -65,6 +66,8 @@ const Name = styled.p`
 `;
 
 const Product = ({ item }) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Container>
@@ -75,7 +78,7 @@ const Product = ({ item }) => {
           <Icon>
             <ShoppingCartOutlined />
           </Icon>
-          <Icon>
+          <Icon onClick={() => navigate(`/product/${item.slug}`)}>
             <SearchOutlined />
           </Icon>
           <Icon>

@@ -33,19 +33,26 @@ public class ProductController {
   private final ModelMapper modelMapper;
 
   @GetMapping()
-  public List<ProductDto> getAllUsers() {
+  public List<ProductDto> getAllProducts() {
     return productService.getAllProducts().stream()
         .map(product -> modelMapper.map(product, ProductDto.class))
         .collect(Collectors.toList());
   }
 
-  @GetMapping("/{id}")
-  public ProductDto getUser(@PathVariable("id") Long id) {
-    return modelMapper.map(productService.getProduct(id), ProductDto.class);
+  @GetMapping("/{slug}")
+  public ProductDto getProduct(@PathVariable("slug") String slug) {
+    return modelMapper.map(productService.getProduct(slug), ProductDto.class);
+  }
+
+  @GetMapping("/popular")
+  public List<ProductDto> getProductByKey() {
+    return productService.getPopularProduct().stream()
+        .map(product -> modelMapper.map(product, ProductDto.class))
+        .collect(Collectors.toList());
   }
 
   @PostMapping()
-  public ResponseEntity<ProductDto> createUser(@Valid @RequestBody ProductDto productDto) {
+  public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
     // convert DTO to entity
     Product productReq = modelMapper.map(productDto, Product.class);
 
@@ -57,7 +64,8 @@ public class ProductController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ProductDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody ProductDto productDto) {
+  public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id,
+      @Valid @RequestBody ProductDto productDto) {
     // convert DTO to entity
     Product productReq = modelMapper.map(productDto, Product.class);
 
@@ -69,7 +77,7 @@ public class ProductController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteUser(@PathVariable("id") Long id) {
+  public void deleteProduct(@PathVariable("id") Long id) {
     productService.deleteProduct(id);
   }
 

@@ -1,15 +1,26 @@
-import { Add, Remove } from "@material-ui/icons";
-import styled from "styled-components";
-import Announcement from "../components/Announcement";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import { mobile } from "../responsive";
+import IconButton from '@material-ui/core/IconButton';
+import { Add, Close, Remove } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
+import Announcement from '../components/Announcement';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import {
+  increaseDecreaseAmount,
+  removeItemFromCart,
+} from '../features/cart/cartSlice';
+import { mobile } from '../responsive';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
-  ${mobile({ padding: "10px" })}
+  ${mobile({ padding: '10px' })}
 `;
 
 const Title = styled.h1`
@@ -28,26 +39,26 @@ const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
+  border: ${(props) => props.type === 'filled' && 'none'};
   background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
+    props.type === 'filled' ? 'black' : 'transparent'};
+  color: ${(props) => props.type === 'filled' && 'white'};
 `;
 
 const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
+  ${mobile({ display: 'none' })}
 `;
 const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
   margin: 0px 10px;
 `;
 
 const Bottom = styled.div`
   display: flex;
+  column-gap: 30px;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
-
+  ${mobile({ flexDirection: 'column' })}
 `;
 
 const Info = styled.div`
@@ -57,7 +68,8 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({ flexDirection: 'column' })}
+  position: relative;
 `;
 
 const ProductDetail = styled.div`
@@ -80,12 +92,7 @@ const ProductName = styled.span``;
 
 const ProductId = styled.span``;
 
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
+const ProductColor = styled.span``;
 
 const ProductSize = styled.span``;
 
@@ -106,13 +113,13 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
+  ${mobile({ margin: '5px 15px' })}
 `;
 
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
+  ${mobile({ marginBottom: '20px' })}
 `;
 
 const Hr = styled.hr`
@@ -137,13 +144,19 @@ const SummaryItem = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
-  font-weight: ${(props) => props.type === "total" && "500"};
-  font-size: ${(props) => props.type === "total" && "24px"};
+  font-weight: ${(props) => props.type === 'total' && '500'};
+  font-size: ${(props) => props.type === 'total' && '24px'};
 `;
 
 const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
+
+const CloseButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
 
 const Button = styled.button`
   width: 100%;
@@ -154,91 +167,124 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
+  const cartLength = useSelector((state) => state.cart.length);
+  const total = cart.reduce(
+    (prev, curr) => prev + curr.amount * curr.basePrice,
+    0
+  );
+  const shipCost = total > 0 ? 50000 : 0;
+
+  const handleAmount = (skuId, amount) => {
+    if (amount < 1 || amount > 99) return;
+    dispatch(increaseDecreaseAmount({ skuId, amount }));
+  };
+
+  const handleRemove = (skuId) => {
+    MySwal.fire({
+      title: 'Xóa sản phẩm',
+      text: 'Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng của bạn',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+    }).then((res) => {
+      if (res.isConfirmed) {
+        dispatch(removeItemFromCart({ skuId }));
+      }
+    });
+  };
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
-        <Title>YOUR BAG</Title>
+        <Title>GIỎ HÀNG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => navigate('/')}>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
+            <TopText>TỔNG ĐƠN HÀNG | {cartLength} SẢN PHẨM</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          <TopButton type='filled'>CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 37.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="gray" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.map((item) => (
+              <div key={item.skuId}>
+                <Product>
+                  <ProductDetail>
+                    <Image src={item.img} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {item.name}
+                      </ProductName>
+                      <ProductId>
+                        <b>SKU:</b> {item.skuId}
+                      </ProductId>
+
+                      {item.color && (
+                        <ProductColor>
+                          <b>Color:</b> {item.color}
+                        </ProductColor>
+                      )}
+
+                      {item.size && (
+                        <ProductSize>
+                          <b>Size:</b> {item.size}
+                        </ProductSize>
+                      )}
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <IconButton
+                        onClick={() =>
+                          handleAmount(item.skuId, item.amount + 1)
+                        }
+                      >
+                        <Add />
+                      </IconButton>
+                      <ProductAmount>{item.amount}</ProductAmount>
+                      <IconButton
+                        onClick={() =>
+                          handleAmount(item.skuId, item.amount - 1)
+                        }
+                      >
+                        <Remove />
+                      </IconButton>
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      {(item.basePrice * item.amount).toLocaleString()}đ
+                    </ProductPrice>
+                  </PriceDetail>
+
+                  <CloseButton>
+                    <IconButton onClick={() => handleRemove(item.skuId)}>
+                      <Close />
+                    </IconButton>
+                  </CloseButton>
+                </Product>
+                <Hr />
+              </div>
+            ))}
           </Info>
           <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryTitle>TỔNG ĐƠN HÀNG</SummaryTitle>
             <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemText>Tạm tính</SummaryItemText>
+              <SummaryItemPrice>{total.toLocaleString()}đ</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemText>Phí vận chuyển</SummaryItemText>
+              <SummaryItemPrice>{shipCost.toLocaleString()}đ</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+            <SummaryItem type='total'>
+              <SummaryItemText>Tổng cộng</SummaryItemText>
+              <SummaryItemPrice>
+                {(total + shipCost).toLocaleString()}đ
+              </SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>

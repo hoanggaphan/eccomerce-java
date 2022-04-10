@@ -7,7 +7,9 @@ import com.springboot.ecommerce.model.Product;
 public interface ProductService {
   public List<Product> getAllProducts();
 
-  public Product getProduct(Long id);
+  public List<Product> getPopularProduct();
+
+  public Product getProduct(String slug);
 
   public Product createProduct(Product product);
 

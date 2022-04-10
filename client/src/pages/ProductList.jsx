@@ -50,7 +50,6 @@ const ProductList = () => {
     name: i.name,
     img: i.images[0].src,
   }));
-  console.log(data);
 
   return (
     <Container>
@@ -82,14 +81,14 @@ const ProductList = () => {
             <Option>XL</Option>
           </Select>
         </Filter>
-        <Filter>
+        {/* <Filter>
           <FilterText>Sort Products:</FilterText>
           <Select>
             <Option>Newest</Option>
             <Option>Price (asc)</Option>
             <Option>Price (desc)</Option>
           </Select>
-        </Filter>
+        </Filter> */}
       </FilterContainer>
       <Products products={products} />
       <Newsletter />
