@@ -1,3 +1,4 @@
+import { Box } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import React from 'react';
 import styled from 'styled-components';
@@ -7,6 +8,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import Products from '../components/Products';
+import useQuery from '../hook/useQuery';
 // import { mobile } from '../responsive';
 
 const Container = styled.div``;
@@ -45,14 +47,15 @@ const Center = styled.div`
   justify-content: center;
 `;
 
-const fetchPopularList = (url) => fetch(url).then((r) => r.json());
+const fetchList = (url) => fetch(url).then((r) => r.json());
 
 const ProductList = () => {
   const [page, setPage] = React.useState(1);
+  const keyword = useQuery().get('keyword'); // bar
 
   const { data } = useSWR(
-    `http://localhost:8080/api/v1/products?page=${page}`,
-    fetchPopularList
+    `http://localhost:8080/api/v1/products?page=${page}&keyword=${keyword}`,
+    fetchList
   );
 
   const products = data?.products?.map((i) => ({
@@ -103,7 +106,14 @@ const ProductList = () => {
         </Filter>
       </FilterContainer> */}
       <Products products={products} />
-
+      <Box px='20px'>
+        {data && keyword && data?.totalItems === 0 && (
+          <p>
+            Không tìm thấy "<b>{keyword}</b>". Vui lòng kiểm tra chính
+            tả hoặc tìm với từ khóa khác!
+          </p>
+        )}
+      </Box>
       <Center>
         {data && data?.totalPages > 1 && (
           <Pagination

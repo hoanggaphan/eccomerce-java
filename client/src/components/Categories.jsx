@@ -11,14 +11,10 @@ const Container = styled.div`
   ${mobile({ padding: '0px', flexDirection: 'column' })}
 `;
 
-const fetchCategories = (url) => fetch(url).then((r) => r.json());
+const fetchList = (url) => fetch(url).then((r) => r.json());
 
 const Categories = () => {
-
-  const { data } = useSWR(
-    'http://localhost:8080/api/v1/categories',
-    fetchCategories
-  );
+  const { data } = useSWR('http://localhost:8080/api/v1/categories', fetchList);
 
   return (
     <Container>

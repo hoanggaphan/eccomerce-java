@@ -12,7 +12,7 @@ import Navbar from '../components/Navbar';
 import {
   increaseDecreaseAmount,
   removeItemFromCart,
-} from '../features/cart/cartSlice';
+} from '../features/cartSlice';
 import { mobile } from '../responsive';
 
 const MySwal = withReactContent(Swal);

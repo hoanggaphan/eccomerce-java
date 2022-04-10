@@ -9,7 +9,7 @@ import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
-import { addToCart } from '../features/cart/cartSlice';
+import { addToCart } from '../features/cartSlice';
 import { mobile } from '../responsive';
 
 const Container = styled.div``;
@@ -148,7 +148,7 @@ const SkuId = styled.p`
   font-size: 14px;
 `;
 
-const fetchPopularList = (url) => fetch(url).then((r) => r.json());
+const fetchList = (url) => fetch(url).then((r) => r.json());
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -157,7 +157,7 @@ const Product = () => {
 
   const { data } = useSWR(
     `http://localhost:8080/api/v1/products/${slug}`,
-    fetchPopularList
+    fetchList
   );
 
   const [imgHold, setImgHold] = React.useState();

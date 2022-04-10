@@ -1,9 +1,10 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { changeValue } from '../features/searchSlice';
 import { mobile } from '../responsive';
 
 const Container = styled.div`
@@ -73,6 +74,18 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const navigate = useNavigate();
   const cartLength = useSelector((state) => state.cart.length);
+  const value = useSelector((state) => state.search.value);
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    dispatch(changeValue({ keyword: e.target.value }));
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      navigate(`/product-list?keyword=${value}`);
+    }
+  };
 
   return (
     <Container>
@@ -80,12 +93,17 @@ const Navbar = () => {
         <Left>
           <Language>VI</Language>
           <SearchContainer>
-            <Input placeholder='Tìm kiếm' />
+            <Input
+              placeholder='Tìm kiếm'
+              value={value}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+            />
             <Search style={{ color: 'gray', fontSize: 16 }} />
           </SearchContainer>
         </Left>
         {/* <Center> */}
-          <Logo onClick={() => navigate('/')}>ÉTOÉT.</Logo>
+        <Logo onClick={() => navigate('/')}>ÉTOÉT.</Logo>
         {/* </Center> */}
         <Right>
           <MenuItem onClick={() => navigate('/register')}>ĐĂNG KÝ</MenuItem>

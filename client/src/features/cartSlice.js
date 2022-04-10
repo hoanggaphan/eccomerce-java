@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addCartToStorage, getCartFromStorage } from '../../utils/localStorage';
+import { addCartToStorage, getCartFromStorage } from '../utils/localStorage';
 
 const calculateCartAmount = () =>
   getCartFromStorage().reduce((prev, curr) => prev + curr.amount, 0);
@@ -48,7 +48,7 @@ export const cartSlice = createSlice({
       const index = state.cart.findIndex(
         (item) => item.skuId === action.payload.skuId
       );
-        console.log(index)
+      console.log(index);
       if (index !== -1) {
         const newCart = [...state.cart];
         newCart.splice(index, 1);
@@ -62,7 +62,11 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, increaseDecreaseAmount, removeItemFromCart, clearCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  increaseDecreaseAmount,
+  removeItemFromCart,
+  clearCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -14,14 +14,14 @@ const Title = styled.h1`
   text-transform: uppercase;
 `;
 
-const fetchPopularList = (url) => fetch(url).then((r) => r.json());
+const fetchList = (url) => fetch(url).then((r) => r.json());
 
 const Category = () => {
   const { slug } = useParams();
 
   const { data } = useSWR(
     `http://localhost:8080/api/v1/categories/${slug}/products`,
-    fetchPopularList
+    fetchList
   );
 
   const products = data?.map((i) => ({
