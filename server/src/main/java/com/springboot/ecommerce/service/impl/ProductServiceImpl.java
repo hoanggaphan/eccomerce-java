@@ -1,15 +1,21 @@
 package com.springboot.ecommerce.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.springboot.ecommerce.dto.ProductDto;
 import com.springboot.ecommerce.exception.ResourceNotFoundException;
 import com.springboot.ecommerce.model.Product;
 import com.springboot.ecommerce.repository.ProductRepository;
 import com.springboot.ecommerce.service.ProductService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -18,9 +24,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
+  private final ModelMapper modelMapper;
 
-  public List<Product> getAllProducts() {
-    return productRepository.findAll();
+  public Map<String, Object> getAllProducts(int page, int length, String color, String size) {
+
+    Pageable paging = PageRequest.of(page, length);
+
+    Page<Product> pageProduct = productRepository.findAll(paging);
+
+    // Get list and convert to DTO
+    List<ProductDto> products = pageProduct.getContent().stream()
+        .map(product -> modelMapper.map(product, ProductDto.class))
+        .collect(Collectors.toList());
+
+    Map<String, Object> response = new HashMap<>();
+
+    response.put("products", products);
+    response.put("currentPage", pageProduct.getNumber());
+    response.put("totalItems", pageProduct.getTotalElements());
+    response.put("totalPages", pageProduct.getTotalPages());
+
+    return response;
+    // Page<Product> pageProducts;
+
+    // if (!color.isBlank()) {
+    // return productRepository.findByColorContainingIgnoreCase(color, paging);
+    // }
+
   }
 
   // Dùng để demo

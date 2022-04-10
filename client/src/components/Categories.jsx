@@ -1,21 +1,29 @@
-import styled from "styled-components";
-import { categories } from "../data";
-import { mobile } from "../responsive";
-import CategoryItem from "./CategoryItem";
+import styled from 'styled-components';
+import useSWR from 'swr';
+import { mobile } from '../responsive';
+import CategoryItem from './CategoryItem';
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 20px;
   justify-content: space-between;
-  ${mobile({ padding: "0px", flexDirection:"column" })}
-
+  ${mobile({ padding: '0px', flexDirection: 'column' })}
 `;
 
+const fetchCategories = (url) => fetch(url).then((r) => r.json());
+
 const Categories = () => {
+
+  const { data } = useSWR(
+    'http://localhost:8080/api/v1/categories',
+    fetchCategories
+  );
+
   return (
     <Container>
-      {categories.map((item) => (
-        <CategoryItem item={item} key={item.id} />
+      {data?.map((item) => (
+        <CategoryItem item={item} key={item.slug} />
       ))}
     </Container>
   );

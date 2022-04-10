@@ -1,9 +1,12 @@
 package com.springboot.ecommerce.service.impl;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.springboot.ecommerce.exception.ResourceNotFoundException;
 import com.springboot.ecommerce.model.Category;
+import com.springboot.ecommerce.model.Product;
 import com.springboot.ecommerce.repository.CategoryRepository;
 import com.springboot.ecommerce.service.CategoryService;
 
@@ -23,6 +26,16 @@ public class CategoryImpl implements CategoryService {
   public Category getCategory(Long id) {
     return categoryRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Category", "Id", id));
+  }
+
+  public Collection<Product> getCategoryProducts(String slug) {
+    Optional<Category> optionalCategory = categoryRepository.findBySlug(slug);
+
+    if (optionalCategory.isPresent()) {
+      return optionalCategory.get().getProducts();
+    } else {
+      throw new ResourceNotFoundException("Category", "slug", slug);
+    }
   }
 
   public Category createCategory(Category category) {

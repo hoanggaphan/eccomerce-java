@@ -175,7 +175,7 @@ const Cart = () => {
     (prev, curr) => prev + curr.amount * curr.basePrice,
     0
   );
-  const shipCost = total > 0 ? 50000 : 0;
+  const shipCost = cartLength <= 0 ? 0 : total > 50000 ? 0 : 50000;
 
   const handleAmount = (skuId, amount) => {
     if (amount < 1 || amount > 99) return;
@@ -189,6 +189,7 @@ const Cart = () => {
       showCancelButton: true,
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
+      confirmButtonColor: "teal"
     }).then((res) => {
       if (res.isConfirmed) {
         dispatch(removeItemFromCart({ skuId }));

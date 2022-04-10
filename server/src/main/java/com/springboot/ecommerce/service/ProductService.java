@@ -1,11 +1,12 @@
 package com.springboot.ecommerce.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.springboot.ecommerce.model.Product;
 
 public interface ProductService {
-  public List<Product> getAllProducts();
+  public Map<String, Object> getAllProducts(int page, int length, String color, String size);
 
   public List<Product> getPopularProduct();
 

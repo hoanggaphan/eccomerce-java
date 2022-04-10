@@ -2,6 +2,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import Category from './pages/Category';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='product/:slug' element={<Product />} />
+            <Route path='category/:slug' element={<Category />} />
             <Route path='product-list' element={<ProductList />} />
             <Route path='register' element={<Register />} />
             <Route path='login' element={<Login />} />

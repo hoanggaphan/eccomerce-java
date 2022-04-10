@@ -1,6 +1,7 @@
 package com.springboot.ecommerce.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +35,19 @@ public class ProductController {
   private final ModelMapper modelMapper;
 
   @GetMapping()
-  public List<ProductDto> getAllProducts() {
-    return productService.getAllProducts().stream()
-        .map(product -> modelMapper.map(product, ProductDto.class))
-        .collect(Collectors.toList());
+  public ResponseEntity<Map<String, Object>> getAllProducts(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int length,
+      @RequestParam(required = false) String color,
+      @RequestParam(required = false) String size) {
+
+    Map<String, Object> response = productService.getAllProducts(page, length, color, size);
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+
+    // return productService.getAllProducts(page, length, color, size).stream()
+    // .map(product -> modelMapper.map(product, ProductDto.class))
+    // .collect(Collectors.toList());
   }
 
   @GetMapping("/{slug}")

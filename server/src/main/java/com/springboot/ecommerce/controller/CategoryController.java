@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.springboot.ecommerce.dto.CategoryDto;
+import com.springboot.ecommerce.dto.ProductDto;
 import com.springboot.ecommerce.model.Category;
 import com.springboot.ecommerce.service.CategoryService;
 
@@ -35,13 +36,20 @@ public class CategoryController {
   @GetMapping()
   public List<CategoryDto> getAllCategorys() {
     return CategoryService.getAllCategories().stream()
-        .map(Category -> modelMapper.map(Category, CategoryDto.class))
+        .map(category -> modelMapper.map(category, CategoryDto.class))
         .collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
   public CategoryDto getCategory(@PathVariable("id") Long id) {
     return modelMapper.map(CategoryService.getCategory(id), CategoryDto.class);
+  }
+
+  @GetMapping("/{slug}/products")
+  public List<ProductDto> getCategoryProducts(@PathVariable("slug") String slug) {
+    return CategoryService.getCategoryProducts(slug).stream()
+        .map(product -> modelMapper.map(product, ProductDto.class))
+        .collect(Collectors.toList());
   }
 
   @PostMapping()

@@ -42,6 +42,11 @@ public class Category {
   @Column(length = 1000)
   private String description;
 
+  @NotBlank(message = "{field.notBlank}")
+  @Size(max = 2000, message = "{string.maxSize2000}")
+  @Column(length = 2000)
+  private String img;
+
   // 1 category có nhiều product)
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude

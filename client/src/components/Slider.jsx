@@ -1,9 +1,10 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { sliderItems } from '../data';
 import { mobile } from '../responsive';
 import { useNavigate } from 'react-router';
+import slide1 from '../assets/2.png'; // Tell webpack this JS file uses this image
+import slide2 from '../assets/3.png'; // Tell webpack this JS file uses this image
 
 const Container = styled.div`
   width: 100%;
@@ -80,15 +81,32 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const sliderItems = [
+  {
+    id: 1,
+    img: slide1,
+    title: 'AUTUMN COLLECTION',
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: 'fcf1ed',
+  },
+  {
+    id: 2,
+    img: slide2,
+    title: 'LOUNGEWEAR LOVE',
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: 'fbf0f4',
+  },
+];
+
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const navigate = useNavigate();
 
   const handleClick = (direction) => {
     if (direction === 'left') {
-      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 1);
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      setSlideIndex(slideIndex < 1 ? slideIndex + 1 : 0);
     }
   };
 

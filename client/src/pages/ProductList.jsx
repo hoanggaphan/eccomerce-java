@@ -1,11 +1,12 @@
+import Pagination from '@material-ui/lab/Pagination';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
-import Products from '../components/Products';
-import Newsletter from '../components/Newsletter';
-import Footer from '../components/Footer';
-import { mobile } from '../responsive';
 import useSWR from 'swr';
+import Announcement from '../components/Announcement';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import Newsletter from '../components/Newsletter';
+import Products from '../components/Products';
+import { mobile } from '../responsive';
 
 const Container = styled.div``;
 
@@ -36,16 +37,21 @@ const Select = styled.select`
   ${mobile({ margin: '10px 0px' })}
 `;
 const Option = styled.option``;
+const Center = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+`;
 
 const fetchPopularList = (url) => fetch(url).then((r) => r.json());
 
 const ProductList = () => {
   const { data } = useSWR(
-    'http://localhost:8080/api/v1/products/popular',
+    'http://localhost:8080/api/v1/products',
     fetchPopularList
   );
 
-  const products = data?.map((i) => ({
+  const products = data?.products.map((i) => ({
     slug: i.slug,
     name: i.name,
     img: i.images[0].src,
@@ -55,10 +61,10 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>Có tất cả {data && data?.totalItems} sản phẩm</Title>
       <FilterContainer>
         <Filter>
-          <FilterText>Filter Products:</FilterText>
+          <FilterText>Lọc sản phẩm:</FilterText>
           <Select defaultValue='title'>
             <Option disabled value='title'>
               Color
@@ -91,6 +97,13 @@ const ProductList = () => {
         </Filter> */}
       </FilterContainer>
       <Products products={products} />
+
+      <Center>
+        {data && data?.totalPages > 1 && (
+          <Pagination count={data?.totalPages} shape='rounded' />
+        )}
+      </Center>
+
       <Newsletter />
       <Footer />
     </Container>

@@ -7,12 +7,12 @@ const Container = styled.div`
   flex-wrap: wrap;
   column-gap: 15px;
   row-gap: 25px;
-  justify-content: space-around;
+  justify-content: ${(props) => props.justifyContent || 'flex-start'};
 `;
 
-const Products = ({ products }) => {
+const Products = ({ products, justifyContent }) => {
   return (
-    <Container>
+    <Container justifyContent={justifyContent}>
       {products?.map((item) => (
         <Product item={item} key={item.slug} />
       ))}

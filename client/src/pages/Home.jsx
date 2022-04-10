@@ -8,14 +8,14 @@ import Newsletter from '../components/Newsletter';
 import Products from '../components/Products';
 import Slider from '../components/Slider';
 
-const fetchPopularList = (url) => fetch(url).then((r) => r.json());
+const fetchProducts = (url) => fetch(url).then((r) => r.json());
 
 const Home = () => {
   const { data } = useSWR(
     'http://localhost:8080/api/v1/products/popular',
-    fetchPopularList
+    fetchProducts
   );
-  
+
   const products = data?.map((i) => ({ slug: i.slug, img: i.images[0].src }));
 
   return (
@@ -24,7 +24,7 @@ const Home = () => {
       <Navbar />
       <Slider />
       <Categories />
-      <Products products={products || []} />
+      <Products products={products || []} justifyContent='space-around' />
       <Newsletter />
       <Footer />
     </div>

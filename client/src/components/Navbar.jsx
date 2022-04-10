@@ -78,9 +78,9 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          <Language>EN</Language>
+          <Language>VI</Language>
           <SearchContainer>
-            <Input placeholder='Search' />
+            <Input placeholder='Tìm kiếm' />
             <Search style={{ color: 'gray', fontSize: 16 }} />
           </SearchContainer>
         </Left>
@@ -88,8 +88,8 @@ const Navbar = () => {
           <Logo onClick={() => navigate('/')}>ÉTOÉT.</Logo>
         {/* </Center> */}
         <Right>
-          <MenuItem onClick={() => navigate('/register')}>REGISTER</MenuItem>
-          <MenuItem onClick={() => navigate('/login')}>SIGN IN</MenuItem>
+          <MenuItem onClick={() => navigate('/register')}>ĐĂNG KÝ</MenuItem>
+          <MenuItem onClick={() => navigate('/login')}>ĐĂNG NHẬP</MenuItem>
           <MenuItem onClick={() => navigate('/cart')}>
             <Badge badgeContent={cartLength} color='primary'>
               <ShoppingCartOutlined />
