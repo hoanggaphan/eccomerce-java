@@ -10,7 +10,7 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.springboot.ecommerce.key.OrderSkuKey;
+import com.springboot.ecommerce.model.EmbeddedId.OrderSkuId;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "order_sku")
 public class OrderSku {
   @EmbeddedId
-  private OrderSkuKey id;
+  private OrderSkuId id;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @MapsId("orderId")

@@ -2,13 +2,13 @@ package com.springboot.ecommerce.dto;
 
 import javax.validation.constraints.NotNull;
 
-import com.springboot.ecommerce.key.OrderSkuKey;
+import com.springboot.ecommerce.model.EmbeddedId.OrderSkuId;
 
 import lombok.Data;
 
 @Data
 public class OrderSkuDto {
-  private OrderSkuKey id;
+  private OrderSkuId id;
 
   @NotNull(message = "field.notBlank")
   private int qty;

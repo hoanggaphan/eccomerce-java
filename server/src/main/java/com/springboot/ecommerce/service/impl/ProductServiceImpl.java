@@ -26,14 +26,16 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final ModelMapper modelMapper;
 
-  public Map<String, Object> getAllProducts(int page, int length, String color, String size) {
+  public Map<String, Object> getAllProducts(int page, int length, String color, String size, String keyword) {
     if (page == 0) {
       throw new ResourceNotFoundException("Product", "page", page);
     }
 
     Pageable paging = PageRequest.of(--page, length);
 
-    Page<Product> pageProduct = productRepository.findAll(paging);
+    Page<Product> pageProduct;
+
+    pageProduct = productRepository.findByNameContainingIgnoreCase(keyword, paging);
 
     // Get list and convert to DTO
     List<ProductDto> products = pageProduct.getContent().stream()

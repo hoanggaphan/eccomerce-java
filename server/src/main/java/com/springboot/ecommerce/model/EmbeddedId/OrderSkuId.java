@@ -1,4 +1,4 @@
-package com.springboot.ecommerce.key;
+package com.springboot.ecommerce.model.EmbeddedId;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Embeddable
 @Data
-public class OrderSkuKey implements Serializable {
+public class OrderSkuId implements Serializable {
   @Column(name = "order_id")
   private Long orderId;
 

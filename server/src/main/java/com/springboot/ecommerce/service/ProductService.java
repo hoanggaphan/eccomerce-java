@@ -6,7 +6,7 @@ import java.util.Map;
 import com.springboot.ecommerce.model.Product;
 
 public interface ProductService {
-  public Map<String, Object> getAllProducts(int page, int length, String color, String size);
+  public Map<String, Object> getAllProducts(int page, int length, String color, String size, String keyword);
 
   public List<Product> getPopularProduct();
 

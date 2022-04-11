@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.springboot.ecommerce.key.SkuAttributeKey;
+import com.springboot.ecommerce.model.EmbeddedId.SkuAttributeId;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sku_attribute")
 public class SkuAttribute {
   @EmbeddedId
-  private SkuAttributeKey skuAttributeKeyId;
+  private SkuAttributeId skuAttributeKeyId;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @MapsId("skuId")

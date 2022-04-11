@@ -39,9 +39,10 @@ public class ProductController {
       @RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "15") int length,
       @RequestParam(required = false) String color,
-      @RequestParam(required = false) String size) {
+      @RequestParam(required = false) String size,
+      @RequestParam(defaultValue = "") String keyword) {
 
-    Map<String, Object> response = productService.getAllProducts(page, length, color, size);
+    Map<String, Object> response = productService.getAllProducts(page, length, color, size, keyword);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
 

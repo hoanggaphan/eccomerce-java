@@ -50,11 +50,13 @@ const Center = styled.div`
 const fetchList = (url) => fetch(url).then((r) => r.json());
 
 const ProductList = () => {
-  const [page, setPage] = React.useState(1);
-  const keyword = useQuery().get('keyword'); // bar
+  const pageNumber = parseInt(useQuery().get('page')) || 1; // bar
+  const length = useQuery().get('length') || ''; // bar
+  const keyword = useQuery().get('keyword') || ''; // bar
+  const [page, setPage] = React.useState(pageNumber);
 
   const { data } = useSWR(
-    `http://localhost:8080/api/v1/products?page=${page}&keyword=${keyword}`,
+    `http://localhost:8080/api/v1/products?page=${page}&length=${length}&keyword=${keyword}`,
     fetchList
   );
 
@@ -109,8 +111,8 @@ const ProductList = () => {
       <Box px='20px'>
         {data && keyword && data?.totalItems === 0 && (
           <p>
-            Không tìm thấy "<b>{keyword}</b>". Vui lòng kiểm tra chính
-            tả hoặc tìm với từ khóa khác!
+            Không tìm thấy "<b>{keyword}</b>". Vui lòng kiểm tra chính tả hoặc
+            tìm với từ khóa khác!
           </p>
         )}
       </Box>

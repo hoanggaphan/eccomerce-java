@@ -32,7 +32,7 @@ const Language = styled.span`
   ${mobile({ display: 'none' })}
 `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   border: 0.5px solid lightgray;
   display: flex;
   align-items: center;
@@ -81,10 +81,9 @@ const Navbar = () => {
     dispatch(changeValue({ keyword: e.target.value }));
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      navigate(`/product-list?keyword=${value}`);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/product-list?keyword=${value}`);
   };
 
   return (
@@ -92,12 +91,13 @@ const Navbar = () => {
       <Wrapper>
         <Left>
           <Language>VI</Language>
-          <SearchContainer>
+          <SearchContainer onSubmit={handleSubmit}>
             <Input
+              required
+              autocomplete='off'
               placeholder='Tìm kiếm'
               value={value}
               onChange={handleChange}
-              onKeyDown={handleKeyDown}
             />
             <Search style={{ color: 'gray', fontSize: 16 }} />
           </SearchContainer>
