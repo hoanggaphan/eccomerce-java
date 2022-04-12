@@ -54,6 +54,8 @@ const FilterContainer = styled.div`
   width: 50%;
   margin: 30px 0px;
   display: flex;
+  row-gap: 15px;
+  flex-wrap: wrap;
   justify-content: space-between;
   ${mobile({ width: '100%' })}
 `;
